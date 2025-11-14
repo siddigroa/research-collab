@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Papers - Research Collaboration{% endblock %}
+
+{% block content %}
+<header>
+    <div class="container">
+        <h1>Research Collaboration System</h1>
+        <div class="user-info">
+            <span>{{ session.researcher_email }}</span>
+            <a href="{{ url_for('researcher_logout') }}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h2>My Papers</h2>
+    
+    {% if papers %}
+    <div class="grid">
+        {% for paper in papers %}
+        <div class="card">
+            <h3>{{ paper.title }}</h3>
+            <p style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                Uploaded: {{ paper.upload_date }}
+            </p>
+            <a href="{{ url_for('view_paper', paper_id=paper.id) }}" class="btn btn-success">Review & Comment</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card">
+        <p style="text-align: center; color: #666;">
+            You don't have access to any papers yet. Please contact your research lead.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

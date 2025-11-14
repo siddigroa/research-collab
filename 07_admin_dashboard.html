@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Research Collaboration{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ecf0f1;
+    }
+    
+    .tab-button {
+        padding: 12px 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #666;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+    }
+    
+    .tab-button.active {
+        color: #2c3e50;
+        border-bottom-color: #3498db;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="container">
+        <h1>Research Collaboration System</h1>
+        <div class="user-info">
+            <span>{{ session.admin_email }}</span>
+            <a href="{{ url_for('admin_logout') }}">Logout</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-button active" onclick="switchTab('papers')">Papers</button>
+        <button class="tab-button" onclick="switchTab('researchers')">Researchers</button>
+    </div>
+    
+    <!-- PAPERS TAB -->
+    <div id="papers" class="tab-content active">
+        <div class="card">
+            <h2>Upload Paper</h2>
+            <form id="uploadPaperForm">
+                <div class="form-group">
+                    <label for="title">Paper Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="file">PDF File</label>
+                    <input type="file" id="file" name="file" accept=".pdf" required>
+                </div>
+                
+                <button type="submit" class="btn btn-success">Upload Paper</button>
+                <span id="uploadStatus"></span>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>Papers</h2>
+            {% if papers %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Uploaded</th>
+                        <th>File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paper in papers %}
+                    <tr>
+                        <td>{{ paper.title }}</td>
+                        <td>{{ paper.upload_date }}</td>
+                        <td>{{ paper.filename }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No papers uploaded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- RESEARCHERS TAB -->
+    <div id="researchers" class="tab-content">
+        <div class="card">
+            <h2>Add Researcher</h2>
+            <form id="addResearcherForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <p style="font-size: 12px; color: #666; margin-top: 5px;">Share this password with the researcher via a secure channel</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Grant Access to Papers</label>
+                    {% if papers %}
+                    <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+                        {% for paper in papers %}
+                        <div style="margin-bottom: 8px;">
+                            <label style="display: flex; align-items: center; font-weight: normal;">
+                                <input type="checkbox" name="paper_ids" value="{{ paper.id }}" style="width: auto; margin-right: 8px;">
+                                {{ paper.title }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p style="color: #e74c3c;">No papers available. Upload papers first.</p>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-success">Add Researcher</button>
+                <span id="addResearcherStatus"></span>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>Researchers</h2>
+            {% if researchers %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for researcher in researchers %}
+                    <tr>
+                        <td>{{ researcher.email }}</td>
+                        <td>{{ researcher.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No researchers added yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function switchTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    
+    document.getElementById(tabName).classList.add('active');
+    event.target.classList.add('active');
+}
+
+document.getElementById('uploadPaperForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('title', document.getElementById('title').value);
+    formData.append('file', document.getElementById('file').files[0]);
+    
+    const status = document.getElementById('uploadStatus');
+    status.textContent = 'Uploading...';
+    status.style.color = '#3498db';
+    
+    try {
+        const response = await fetch('{{ url_for("upload_paper") }}', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            status.textContent = 'Upload successful! Refresh page to see it.';
+            status.style.color = '#27ae60';
+            document.getElementById('uploadPaperForm').reset();
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            status.textContent = 'Error: ' + data.error;
+            status.style.color = '#e74c3c';
+        }
+    } catch (error) {
+        status.textContent = 'Error: ' + error.message;
+        status.style.color = '#e74c3c';
+    }
+});
+
+document.getElementById('addResearcherForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(document.getElementById('addResearcherForm'));
+    
+    const status = document.getElementById('addResearcherStatus');
+    status.textContent = 'Adding researcher...';
+    status.style.color = '#3498db';
+    
+    try {
+        const response = await fetch('{{ url_for("add_researcher") }}', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            status.textContent = 'Researcher added successfully! Refresh page to see it.';
+            status.style.color = '#27ae60';
+            document.getElementById('addResearcherForm').reset();
+            setTimeout(() => location.reload(), 1500);
+        } else {
+            status.textContent = 'Error: ' + data.error;
+            status.style.color = '#e74c3c';
+        }
+    } catch (error) {
+        status.textContent = 'Error: ' + error.message;
+        status.style.color = '#e74c3c';
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,245 @@
+=============================================================================
+RESEARCH COLLABORATION SYSTEM - FILE INDEX & QUICK START
+=============================================================================
+
+YOU NOW HAVE 11 FILES READY TO DEPLOY!
+
+All files are in: /mnt/user-data/outputs/github-files/
+
+=============================================================================
+QUICK SETUP (3 STEPS)
+=============================================================================
+
+STEP 1: READ THIS FIRST
+  File: GITHUB_SETUP_GUIDE.txt
+  - Complete step-by-step instructions
+  - Follow this exactly!
+
+STEP 2: CREATE GITHUB ACCOUNT & REPOSITORY
+  - Go to github.com
+  - Create account
+  - Create new repository called "research-collab"
+
+STEP 3: UPLOAD YOUR 11 FILES TO GITHUB
+  - Upload each file to correct location (see below)
+  - Deploy to Render
+  - Done!
+
+=============================================================================
+YOUR 11 FILES EXPLAINED
+=============================================================================
+
+CORE APPLICATION FILES (Upload to root folder):
+
+01_app.py
+  ✓ Rename to: app.py
+  ✓ Main Flask application (all the logic)
+  ✓ Upload to: Root folder (same level as README.md)
+  ✓ Size: ~15 KB
+
+02_requirements.txt
+  ✓ Rename to: requirements.txt
+  ✓ List of Python packages needed
+  ✓ Upload to: Root folder
+  ✓ Size: < 1 KB
+
+03_Procfile
+  ✓ Keep name: Procfile (NO extension)
+  ✓ Tells Render how to run your app
+  ✓ Upload to: Root folder
+  ✓ Size: < 1 KB
+
+11_gitignore
+  ✓ Rename to: .gitignore (with dot at start)
+  ✓ Tells GitHub which files to ignore
+  ✓ Upload to: Root folder
+  ✓ Size: < 1 KB
+
+
+HTML TEMPLATES (Upload to templates/ folder):
+
+04_base.html
+  ✓ Rename to: base.html
+  ✓ Base HTML template with styling
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~6 KB
+
+05_admin_login.html
+  ✓ Rename to: admin_login.html
+  ✓ Admin login page
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~1 KB
+
+06_admin_setup.html
+  ✓ Rename to: admin_setup.html
+  ✓ Admin account creation page
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~1 KB
+
+07_admin_dashboard.html
+  ✓ Rename to: admin_dashboard.html
+  ✓ Main admin control panel
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~8 KB
+
+08_researcher_login.html
+  ✓ Rename to: researcher_login.html
+  ✓ Researcher login page
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~1 KB
+
+09_researcher_dashboard.html
+  ✓ Rename to: researcher_dashboard.html
+  ✓ List of papers for researcher
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~1 KB
+
+10_researcher_view_paper.html
+  ✓ Rename to: researcher_view_paper.html
+  ✓ PDF viewer & comment form
+  ✓ Upload to: templates/ folder
+  ✓ Size: ~6 KB
+
+
+SETUP GUIDE:
+
+GITHUB_SETUP_GUIDE.txt
+  ✓ Read this file first!
+  ✓ Step-by-step instructions
+  ✓ Follow it exactly
+
+=============================================================================
+FILE STRUCTURE IN GITHUB
+=============================================================================
+
+After uploading, your GitHub repository should look like:
+
+research-collab/
+├── app.py                    (main application)
+├── requirements.txt          (dependencies)
+├── Procfile                  (for Render)
+├── .gitignore               (ignore file)
+├── README.md                (already exists)
+└── templates/               (folder)
+    ├── base.html
+    ├── admin_login.html
+    ├── admin_setup.html
+    ├── admin_dashboard.html
+    ├── researcher_login.html
+    ├── researcher_dashboard.html
+    └── researcher_view_paper.html
+
+=============================================================================
+HOW TO UPLOAD TO GITHUB
+=============================================================================
+
+Option A: Web Interface (Easiest)
+
+1. Go to your GitHub repository
+2. Click "Add file" → "Upload files"
+3. Select files to upload
+4. Make sure path is correct (templates/ for HTML files)
+5. Click "Commit changes"
+
+Option B: GitHub Desktop (Recommended)
+
+1. Download GitHub Desktop from github.com/desktop
+2. Clone your repository
+3. Copy files to the folder
+4. Click "Commit" in GitHub Desktop
+5. Click "Push"
+
+=============================================================================
+AFTER UPLOADING - DEPLOY TO RENDER
+=============================================================================
+
+1. Go to: https://render.com
+2. Sign up (or use GitHub login)
+3. Click "New Web Service"
+4. Select your "research-collab" repository
+5. Configure:
+   - Name: research-collab
+   - Build command: pip install -r requirements.txt
+   - Start command: gunicorn app:app
+6. Click "Create Web Service"
+7. Wait 2-3 minutes for deployment
+
+Your app will be live at a URL like:
+https://research-collab-xxxx.onrender.com
+
+=============================================================================
+NEXT STEPS
+=============================================================================
+
+1. ✓ Download all 11 files
+2. ✓ Read GITHUB_SETUP_GUIDE.txt
+3. ✓ Create GitHub account
+4. ✓ Create "research-collab" repository
+5. ✓ Upload all 11 files to GitHub
+6. ✓ Deploy to Render
+7. ✓ Visit your URL
+8. ✓ Create admin account
+9. ✓ Upload papers
+10. ✓ Add researchers
+11. ✓ Share researcher login URL
+
+=============================================================================
+FILE NAMES (IMPORTANT!)
+=============================================================================
+
+These files are numbered (01, 02, etc.) so you know the order, BUT:
+
+RENAME THEM WHEN YOU UPLOAD:
+
+✓ 01_app.py → app.py
+✓ 02_requirements.txt → requirements.txt
+✓ 03_Procfile → Procfile
+✓ 04_base.html → base.html
+✓ 05_admin_login.html → admin_login.html
+✓ 06_admin_setup.html → admin_setup.html
+✓ 07_admin_dashboard.html → admin_dashboard.html
+✓ 08_researcher_login.html → researcher_login.html
+✓ 09_researcher_dashboard.html → researcher_dashboard.html
+✓ 10_researcher_view_paper.html → researcher_view_paper.html
+✓ 11_gitignore → .gitignore
+
+=============================================================================
+TOTAL SIZE
+=============================================================================
+
+All 11 files combined: ~50 KB
+Your app will run on Render's free tier (no credit card needed!)
+
+=============================================================================
+SUPPORT
+=============================================================================
+
+If you get stuck:
+
+1. Read GITHUB_SETUP_GUIDE.txt carefully
+2. Check file names are correct
+3. Make sure HTML files are in templates/ folder
+4. Take a screenshot of the error
+5. Ask for help
+
+You've got this! The hardest part is over - you have all the files! 🎉
+
+=============================================================================
+SUCCESS CRITERIA
+=============================================================================
+
+You'll know it's working when:
+
+✓ GitHub repository shows your 11 files
+✓ Render shows "Deploy successful"
+✓ You can visit your app URL
+✓ You see the admin setup page
+✓ You can create an admin account
+✓ You can upload a paper
+✓ You can add a researcher
+
+=============================================================================
+
+READY? Let's go! Read GITHUB_SETUP_GUIDE.txt first! 🚀
+
+=============================================================================

@@ -1,0 +1,203 @@
+STEP-BY-STEP GUIDE: CREATE GITHUB REPOSITORY & DEPLOY TO RENDER
+
+=============================================================================
+PART 1: CREATE GITHUB ACCOUNT
+=============================================================================
+
+1. Go to: https://github.com/signup
+2. Enter your email address
+3. Create a password
+4. Choose a username (something like: siddiresearch)
+5. Click "Create account"
+6. You'll be asked to verify your email - check your email and click the link
+7. Done! You now have a GitHub account
+
+=============================================================================
+PART 2: CREATE A NEW REPOSITORY
+=============================================================================
+
+1. Go to: https://github.com (log in if needed)
+2. Click the "+" icon in top right corner
+3. Click "New repository"
+4. Fill in:
+   - Repository name: research-collab
+   - Description: Research paper collaboration system
+   - Public (keep it public so Render can access it)
+   - Click "Initialize this repository with a README" - CHECK THIS BOX
+5. Click "Create repository"
+
+You now have a GitHub repository! 
+
+=============================================================================
+PART 3: ADD YOUR FILES TO THE REPOSITORY
+=============================================================================
+
+You downloaded files numbered 01 to 10. Here's where each file goes:
+
+FILE 01 - app.py
+- Rename to: app.py
+- Upload directly to root (no folder)
+- Click "Add file" → "Upload files"
+- Select the file
+- Click "Commit changes"
+
+FILE 02 - requirements.txt
+- Rename to: requirements.txt
+- Upload directly to root
+- Click "Add file" → "Upload files"
+- Select the file
+- Click "Commit changes"
+
+FILE 03 - Procfile
+- Rename to: Procfile (NO .txt extension)
+- Upload directly to root
+- Click "Add file" → "Upload files"
+- Select the file
+- Click "Commit changes"
+
+FILES 04-10 - HTML TEMPLATES (THESE GO IN TEMPLATES FOLDER)
+
+First, create templates folder:
+1. Click "Add file" → "Create new file"
+2. Type: templates/placeholder.txt
+3. Click "Commit new file"
+4. This creates the templates folder
+
+Then add the HTML files:
+1. Click "Add file" → "Upload files"
+2. You can select multiple files at once
+3. Make sure they're named:
+   - 04_base.html → base.html
+   - 05_admin_login.html → admin_login.html
+   - 06_admin_setup.html → admin_setup.html
+   - 07_admin_dashboard.html → admin_dashboard.html
+   - 08_researcher_login.html → researcher_login.html
+   - 09_researcher_dashboard.html → researcher_dashboard.html
+   - 10_researcher_view_paper.html → researcher_view_paper.html
+4. Drag them into the templates folder (they should show "templates/" path)
+5. Click "Commit changes"
+
+AFTER THIS, DELETE the placeholder.txt:
+1. Go to templates folder
+2. Click placeholder.txt
+3. Click delete icon (trash can)
+4. Commit the deletion
+
+=============================================================================
+PART 4: CREATE .gitignore FILE
+=============================================================================
+
+1. Go back to your repository home
+2. Click "Add file" → "Create new file"
+3. Type in filename: .gitignore
+4. Paste this content:
+
+__pycache__/
+*.pyc
+*.db
+uploads/
+.env
+*.egg-info/
+venv/
+
+5. Click "Commit new file"
+
+=============================================================================
+PART 5: YOUR REPOSITORY IS READY!
+=============================================================================
+
+You now have:
+- app.py (main application)
+- requirements.txt (dependencies)
+- Procfile (for Render)
+- templates/ folder (with 7 HTML files)
+- .gitignore (ignores unnecessary files)
+
+Your GitHub repository link should look like:
+https://github.com/YOUR_USERNAME/research-collab
+
+=============================================================================
+PART 6: DEPLOY TO RENDER
+=============================================================================
+
+1. Go to: https://render.com
+2. Click "Sign up"
+3. You can sign up with GitHub (click "Continue with GitHub")
+4. Authorize Render to access your GitHub
+5. After login, click "New +" button
+6. Click "Web Service"
+7. GitHub should show your repositories - select "research-collab"
+8. Configure:
+   - Name: research-collab
+   - Runtime: Python 3
+   - Build command: pip install -r requirements.txt
+   - Start command: gunicorn app:app
+9. Click "Create Web Service"
+
+Render will now deploy your app! Wait 2-3 minutes...
+
+You should see a URL like: https://research-collab-xxxx.onrender.com
+
+=============================================================================
+PART 7: YOUR APP IS LIVE!
+=============================================================================
+
+Go to your Render URL and you should see the admin setup page!
+
+1. Create your admin account
+2. Upload papers
+3. Add researchers
+4. Share the researcher login URL with your team
+
+The login URL for researchers is:
+https://research-collab-xxxx.onrender.com/researcher/login
+
+=============================================================================
+SUMMARY OF FILE LOCATIONS
+=============================================================================
+
+Repository root:
+- app.py
+- requirements.txt
+- Procfile
+- .gitignore
+- README.md (already exists)
+
+templates/ folder:
+- base.html
+- admin_login.html
+- admin_setup.html
+- admin_dashboard.html
+- researcher_login.html
+- researcher_dashboard.html
+- researcher_view_paper.html
+
+uploads/ folder (created automatically when app runs):
+- This is where PDFs will be stored
+
+=============================================================================
+IF YOU GET STUCK
+=============================================================================
+
+Common Issues:
+
+"Build failed" on Render:
+- Make sure requirements.txt is in root
+- Make sure Procfile is in root
+- Wait and try again (sometimes it takes time)
+
+"Files not found":
+- Double-check file names (case-sensitive on Linux)
+- Make sure HTML files are in templates/ folder
+- Refresh the page
+
+"Can't upload files":
+- Make sure you're in the right folder
+- Try uploading one file at a time
+- Check file names
+
+Still stuck? Take screenshots of errors and share them!
+
+=============================================================================
+DONE! Your research collaboration system is live!
+=============================================================================
